@@ -77,7 +77,7 @@ Developers can:
 
 ---
 
-# ⭐ Key Features
+# ⭐ Key Feature
 
 ## 1. User Authentication
 
