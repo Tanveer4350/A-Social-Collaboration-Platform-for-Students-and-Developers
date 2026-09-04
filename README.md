@@ -1,10 +1,10 @@
-# ProjectConnect
+# Collaborator
 
 ## A Social Collaboration Platform for Students and Developers
 
 > **Project Status:** 🚧 Under Development
 
-ProjectConnect is a social collaboration platform designed for **students and developers** to connect, share knowledge, showcase their skills and projects, find collaborators, and participate in technical communities.
+Collaborator is a social collaboration platform designed for **students and developers** to connect, share knowledge, showcase their skills and projects, find collaborators, and participate in technical communities.
 
 The platform combines the core features of a social media application with **developer networking and project collaboration**, creating a space where users can build connections based on their skills, interests, and technical goals.
 
@@ -12,7 +12,7 @@ The platform combines the core features of a social media application with **dev
 
 ## 📌 Project Overview
 
-Traditional social media platforms mainly focus on social interaction, while professional platforms primarily focus on careers and networking. ProjectConnect aims to combine these concepts into a single platform focused on **technical collaboration and learning**.
+Traditional social media platforms mainly focus on social interaction, while professional platforms primarily focus on careers and networking. Collaborator aims to combine these concepts into a single platform focused on **technical collaboration and learning**.
 
 Users will be able to:
 
@@ -32,7 +32,7 @@ The project is being developed using a modern **full-stack architecture**, with 
 
 # 🎯 Objectives
 
-The main objectives of ProjectConnect are:
+The main objectives of Collaborator are:
 
 * Build a full-stack social collaboration platform.
 * Provide secure user authentication and authorization.
@@ -50,7 +50,7 @@ The main objectives of ProjectConnect are:
 
 # 👥 Target Users
 
-ProjectConnect primarily focuses on:
+Collaborator primarily focuses on:
 
 ### Students
 
@@ -198,7 +198,7 @@ React | JavaScript | Node.js
 
 # 5. Project Collaboration
 
-One of the primary features of ProjectConnect will be project collaboration.
+One of the primary features of Collaborator will be project collaboration.
 
 Users will be able to create projects containing:
 
@@ -244,7 +244,7 @@ Users can:
 
 # 6. Skill-Based Matching
 
-ProjectConnect will include a skill-based matching system.
+Collaborator will include a skill-based matching system.
 
 The system can recommend users based on:
 
@@ -569,7 +569,7 @@ The API structure may change as development progresses.
 The planned project structure is:
 
 ```text
-ProjectConnect/
+Collaborator/
 │
 ├── frontend/
 │   ├── public/
@@ -586,7 +586,7 @@ ProjectConnect/
 │   ├── src/
 │   │   ├── main/
 │   │   │   ├── java/
-│   │   │   │   └── com/projectconnect/
+│   │   │   │   └── com/collaborator/
 │   │   │   │       ├── controller/
 │   │   │   │       ├── service/
 │   │   │   │       ├── repository/
@@ -785,7 +785,7 @@ Deployment
 
 # 🚧 Current Status
 
-ProjectConnect is currently **under development**.
+Collaborator is currently **under development**.
 
 The initial stages focus on:
 
@@ -831,7 +831,7 @@ A formal open-source license may be added in the future.
 
 # 📌 Project Summary
 
-**Project Name:** ProjectConnect
+**Project Name:** Collaborator
 
 **Type:** Social Collaboration Platform
 
@@ -855,4 +855,4 @@ A formal open-source license may be added in the future.
 
 > **Connect. Collaborate. Create.**
 
-ProjectConnect aims to create a technical social environment where students and developers can move beyond simply connecting online and actually **find people, share knowledge, build projects, and collaborate together.**
+Collaborator aims to create a technical social environment where students and developers can move beyond simply connecting online and actually **find people, share knowledge, build projects, and collaborate together.**
