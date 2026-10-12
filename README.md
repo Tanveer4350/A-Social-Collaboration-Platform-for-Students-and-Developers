@@ -194,4 +194,5 @@ The embedded H2 database console is enabled by default:
 - **Username:** `sa`
 - **Password:** `password`
 #   C o l l a b o r a t i o n - S t u d e n t - D e v e l o p e r  
+ #   C o l l a b o r a t i o n - S t u d e n t - D e v e l o p e r  
  
