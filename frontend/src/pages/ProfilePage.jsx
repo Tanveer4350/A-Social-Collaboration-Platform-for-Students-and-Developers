@@ -562,6 +562,19 @@ export default function ProfilePage() {
                 />
               </div>
 
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  Profile Image URL
+                </label>
+                <input
+                  type="url"
+                  value={editForm.avatarUrl}
+                  onChange={(e) => setEditForm({ ...editForm, avatarUrl: e.target.value })}
+                  placeholder="https://example.com/your-photo.jpg"
+                  className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-brand-500 outline-none"
+                />
+              </div>
+
               {/* Skills Editor */}
               <div>
                 <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
@@ -597,6 +610,44 @@ export default function ProfilePage() {
                 />
               </div>
 
+              {/* Interests Editor */}
+              <div>
+                <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                  Interests & Domains
+                </label>
+                <div className="flex flex-wrap gap-1.5 mb-2">
+                  {editInterests.map((interest) => (
+                    <span
+                      key={interest}
+                      className="inline-flex items-center gap-1 px-2.5 py-0.5 text-xs font-semibold bg-slate-100 text-slate-700 rounded-lg border border-slate-200"
+                    >
+                      {interest}
+                      <button
+                        type="button"
+                        onClick={() => setEditInterests(editInterests.filter((x) => x !== interest))}
+                      >
+                        <X className="w-3 h-3 hover:text-rose-500" />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <input
+                  type="text"
+                  value={interestInput}
+                  onChange={(e) => setInterestInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if ((e.key === 'Enter' || e.key === ',') && interestInput.trim()) {
+                      e.preventDefault();
+                      const val = interestInput.trim().replace(/,/g, '');
+                      if (!editInterests.includes(val)) setEditInterests([...editInterests, val]);
+                      setInterestInput('');
+                    }
+                  }}
+                  placeholder="Add interest (e.g. Open Source, AI) - press Enter"
+                  className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-brand-500 outline-none"
+                />
+              </div>
+
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
@@ -619,6 +670,18 @@ export default function ProfilePage() {
                     value={editForm.linkedinUrl}
                     onChange={(e) => setEditForm({ ...editForm, linkedinUrl: e.target.value })}
                     placeholder="https://linkedin.com/in/..."
+                    className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-brand-500 outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">
+                    Portfolio URL
+                  </label>
+                  <input
+                    type="url"
+                    value={editForm.portfolioUrl}
+                    onChange={(e) => setEditForm({ ...editForm, portfolioUrl: e.target.value })}
+                    placeholder="https://your-site.dev"
                     className="w-full px-3.5 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-brand-500 outline-none"
                   />
                 </div>

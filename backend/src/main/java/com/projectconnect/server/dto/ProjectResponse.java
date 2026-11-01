@@ -1,5 +1,6 @@
 package com.projectconnect.server.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.projectconnect.server.model.Project;
 import com.projectconnect.server.model.ProjectStatus;
 import com.projectconnect.server.model.User;
@@ -60,7 +61,7 @@ public class ProjectResponse {
         res.setCurrentMembersCount(count);
 
         if (currentUser != null) {
-            res.setOwner(currentUser.getId().equals(project.getOwner().getId()));
+            res.setIsOwner(currentUser.getId().equals(project.getOwner().getId()));
             boolean isMem = project.getMembers() != null && project.getMembers().contains(currentUser);
             res.setMember(res.isOwner() || isMem);
         }
@@ -102,10 +103,12 @@ public class ProjectResponse {
         this.description = description;
     }
 
+    @JsonProperty("owner")
     public UserSummaryDto getOwner() {
         return owner;
     }
 
+    @JsonProperty("owner")
     public void setOwner(UserSummaryDto owner) {
         this.owner = owner;
     }
@@ -174,11 +177,12 @@ public class ProjectResponse {
         this.members = members;
     }
 
+    @JsonProperty("isOwner")
     public boolean isOwner() {
         return isOwner;
     }
 
-    public void setOwner(boolean owner) {
+    public void setIsOwner(boolean owner) {
         isOwner = owner;
     }
 
