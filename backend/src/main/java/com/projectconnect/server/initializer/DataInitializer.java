@@ -43,6 +43,7 @@ public class DataInitializer implements CommandLineRunner {
     @Transactional
     public void run(String... args) {
         if (userRepository.count() > 0) {
+            seedUniversityDemoAccounts();
             return; // Data already present
         }
 
@@ -259,6 +260,62 @@ public class DataInitializer implements CommandLineRunner {
 
         notificationRepository.saveAll(Arrays.asList(n1, n2, n3));
 
+        seedUniversityDemoAccounts();
+
         System.out.println(">>> ProjectConnect sample demo data initialized successfully!");
+    }
+
+    private void seedUniversityDemoAccounts() {
+        String[][] accounts = {
+                {"maya_java", "Maya Patel", "maya.patel@mit.edu", "Massachusetts Institute of Technology",
+                        "Java,Spring Boot,Python,FastAPI,REST APIs"},
+                {"ethan_py", "Ethan Brooks", "ethan.brooks@stanford.edu", "Stanford University",
+                        "Python,Django,Java,Spring Security,PostgreSQL"},
+                {"priya_data", "Priya Nair", "priya.nair@andrew.cmu.edu", "Carnegie Mellon University",
+                        "Python,Machine Learning,Java,Microservices,TensorFlow"},
+                {"noah_backend", "Noah Williams", "noah.williams@ox.ac.uk", "University of Oxford",
+                        "Java,Spring Boot,Python,Flask,Docker"},
+                {"lucia_dev", "Lucia Chen", "lucia.chen@utoronto.ca", "University of Toronto",
+                        "Java,Quarkus,Python,Pytest,MySQL"},
+                {"arjun_ai", "Arjun Mehta", "arjun.mehta@u.nus.edu", "National University of Singapore",
+                        "Python,PyTorch,Java,Kotlin,Data Science"},
+        };
+
+        String encodedPassword = passwordEncoder.encode("password123");
+        for (String[] account : accounts) {
+            User user = userRepository.findByUsername(account[0]).orElseGet(() -> {
+                User demoUser = new User(
+                        account[0],
+                        account[2],
+                        encodedPassword,
+                        account[1],
+                        Role.ROLE_STUDENT
+                );
+                demoUser.setHeadline("Java & Python Developer | Computer Science Student");
+                demoUser.setBio("Demo student profile interested in building projects with Java, Python, and collaborative teams.");
+                demoUser.setEducation(account[3] + " (Computer Science)");
+                demoUser.setSkills(new HashSet<>(Arrays.asList(account[4].split(","))));
+                demoUser.setInterests(new HashSet<>(Arrays.asList("Java", "Python", "Open Source", "University Projects")));
+                return userRepository.save(demoUser);
+            });
+
+            String invitation = account[3] +
+                    " invited you to join its Java & Python student developer collaboration program.";
+            boolean alreadyInvited = notificationRepository
+                    .findByRecipientOrderByCreatedAtDesc(user)
+                    .stream()
+                    .anyMatch(notification ->
+                            notification.getType() == NotificationType.UNIVERSITY_INVITATION
+                                    && notification.getMessage().equals(invitation));
+            if (!alreadyInvited) {
+                notificationRepository.save(new Notification(
+                        user,
+                        null,
+                        NotificationType.UNIVERSITY_INVITATION,
+                        invitation,
+                        "/projects"
+                ));
+            }
+        }
     }
 }

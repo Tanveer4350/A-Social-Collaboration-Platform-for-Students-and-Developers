@@ -12,13 +12,17 @@ import {
   User as UserIcon,
   PlusCircle,
   Menu,
-  X
+  X,
+  Moon,
+  Sun
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import NotificationDropdown from './NotificationDropdown';
 
 export default function Navbar({ onOpenCreatePost, onOpenCreateProject }) {
   const { user, logout, isAuthenticated } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [searchQuery, setSearchQuery] = useState('');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -41,7 +45,7 @@ export default function Navbar({ onOpenCreatePost, onOpenCreateProject }) {
     }`;
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/90 backdrop-blur-md border-b border-slate-200/80">
+    <header className="sticky top-0 z-40 w-full bg-white/90 dark:bg-slate-950/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
@@ -68,7 +72,7 @@ export default function Navbar({ onOpenCreatePost, onOpenCreateProject }) {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search users, skills, projects, posts..."
-                className="w-full pl-10 pr-4 py-2 bg-slate-100/80 hover:bg-slate-100 focus:bg-white text-sm text-slate-800 rounded-xl border border-transparent focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
+                className="w-full pl-10 pr-4 py-2 bg-slate-100/80 hover:bg-slate-100 focus:bg-white text-sm text-slate-900 placeholder:text-slate-500 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-300 dark:border-slate-600 dark:focus:bg-slate-800 rounded-xl border border-slate-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-all outline-none"
               />
             </div>
           </form>
@@ -101,6 +105,15 @@ export default function Navbar({ onOpenCreatePost, onOpenCreateProject }) {
 
           {/* Right Action Menu */}
           <div className="flex items-center gap-2.5">
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="p-2 text-slate-600 dark:text-slate-300 hover:text-brand-600 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors"
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
             {isAuthenticated ? (
               <>
                 {/* Create Buttons Dropdown / Modal triggers */}
@@ -226,7 +239,7 @@ export default function Navbar({ onOpenCreatePost, onOpenCreateProject }) {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search..."
-                className="w-full pl-9 pr-3 py-2 bg-slate-100 text-sm rounded-xl outline-none"
+                className="w-full pl-9 pr-3 py-2 bg-slate-100 text-sm text-slate-900 placeholder:text-slate-500 dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-300 dark:border-slate-600 border border-slate-200 rounded-xl outline-none"
               />
             </div>
           </form>

@@ -84,6 +84,12 @@ public class MessageService {
                             "/queue/messages",
                             response
                     );
+                    long lowerId = Math.min(currentUser.getId(), recipient.getId());
+                    long upperId = Math.max(currentUser.getId(), recipient.getId());
+                    messagingTemplate.convertAndSend(
+                            "/topic/direct/" + lowerId + "-" + upperId,
+                            response
+                    );
                 } catch (Exception ignored) {}
             }
 

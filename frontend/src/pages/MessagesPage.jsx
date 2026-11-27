@@ -7,8 +7,11 @@ import {
   User as UserIcon,
   Sparkles,
   ArrowLeft,
-  Circle
+  Circle,
+  Search
 } from 'lucide-react';
+import SockJS from 'sockjs-client';
+import { Client } from '@stomp/stompjs';
 import { messageService, userService } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 
@@ -22,7 +25,9 @@ export default function MessagesPage() {
   const [loadingConv, setLoadingConv] = useState(true);
   const [loadingMessages, setLoadingMessages] = useState(false);
   const [sending, setSending] = useState(false);
+  const [conversationSearch, setConversationSearch] = useState('');
   const messagesEndRef = useRef(null);
+  const stompClientRef = useRef(null);
 
   const targetUserIdFromUrl = searchParams.get('user');
 
@@ -88,6 +93,47 @@ export default function MessagesPage() {
   }, [activeConv]);
 
   useEffect(() => {
+    if (!activeConv) return;
+
+    const stompClient = new Client({
+      webSocketFactory: () => new SockJS('/ws'),
+      reconnectDelay: 3000,
+      heartbeatIncoming: 10000,
+      heartbeatOutgoing: 10000,
+    });
+
+    stompClient.onConnect = () => {
+      const destination = activeConv.type === 'PROJECT'
+        ? `/topic/project/${activeConv.id}`
+        : (() => {
+            const lowerId = Math.min(currentUser.id, activeConv.id);
+            const upperId = Math.max(currentUser.id, activeConv.id);
+            return `/topic/direct/${lowerId}-${upperId}`;
+          })();
+
+      stompClient.subscribe(destination, (message) => {
+        const incoming = JSON.parse(message.body);
+        setMessages((previous) => {
+          if (previous.some((item) => item.id === incoming.id)) return previous;
+          return [...previous, incoming];
+        });
+
+        fetchConversations();
+      });
+    };
+
+    stompClient.activate();
+    stompClientRef.current = stompClient;
+
+    return () => {
+      stompClient.deactivate();
+      if (stompClientRef.current === stompClient) {
+        stompClientRef.current = null;
+      }
+    };
+  }, [activeConv, currentUser?.id]);
+
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
@@ -115,6 +161,16 @@ export default function MessagesPage() {
     }
   };
 
+  const filteredConversations = conversations.filter((conv) => {
+    if (!conversationSearch.trim()) return true;
+    const query = conversationSearch.toLowerCase();
+    const name = conv.type === 'DIRECT'
+      ? conv.otherUser?.fullName || conv.otherUser?.username || ''
+      : conv.projectTitle || '';
+    const preview = conv.lastMessage || '';
+    return name.toLowerCase().includes(query) || preview.toLowerCase().includes(query);
+  });
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden grid grid-cols-1 md:grid-cols-12 h-[calc(100vh-140px)] min-h-[550px]">
@@ -125,6 +181,16 @@ export default function MessagesPage() {
               <MessageSquare className="w-5 h-5 text-brand-600" />
               Messages & Channels
             </h2>
+            <div className="relative mt-3">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="search"
+                value={conversationSearch}
+                onChange={(e) => setConversationSearch(e.target.value)}
+                placeholder="Search conversations..."
+                className="w-full pl-9 pr-3 py-2 text-xs text-slate-900 placeholder:text-slate-500 bg-slate-100 border border-slate-300 rounded-xl dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-300 dark:border-slate-600 dark:focus:bg-slate-800 focus:bg-white focus:border-brand-500 outline-none transition-all"
+              />
+            </div>
           </div>
 
           <div className="flex-1 overflow-y-auto divide-y divide-slate-100">
@@ -136,8 +202,12 @@ export default function MessagesPage() {
               <div className="p-8 text-center text-xs text-slate-400">
                 No active conversations yet. Visit profiles or projects to start chatting!
               </div>
+            ) : filteredConversations.length === 0 ? (
+              <div className="p-8 text-center text-xs text-slate-400">
+                No conversations match "{conversationSearch}"
+              </div>
             ) : (
-              conversations.map((conv, idx) => {
+              filteredConversations.map((conv, idx) => {
                 const isSelected =
                   activeConv &&
                   activeConv.type === conv.type &&

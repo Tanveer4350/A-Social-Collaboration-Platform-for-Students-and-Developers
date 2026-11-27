@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Bell, Check, Heart, MessageSquare, UserPlus, FolderPlus, CheckCircle, XCircle } from 'lucide-react';
+import { Bell, Check, Heart, MessageSquare, UserPlus, FolderPlus, CheckCircle, XCircle, GraduationCap } from 'lucide-react';
 import { notificationService } from '../services/api';
 
 export default function NotificationDropdown() {
@@ -84,6 +84,8 @@ export default function NotificationDropdown() {
         return <CheckCircle className="w-4 h-4 text-emerald-500" />;
       case 'APPLICATION_REJECTED':
         return <XCircle className="w-4 h-4 text-red-500" />;
+      case 'UNIVERSITY_INVITATION':
+        return <GraduationCap className="w-4 h-4 text-indigo-500" />;
       default:
         return <Bell className="w-4 h-4 text-slate-500" />;
     }

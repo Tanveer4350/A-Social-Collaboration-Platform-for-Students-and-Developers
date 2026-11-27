@@ -82,7 +82,7 @@ export default function ExplorePage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by name, skill, or role..."
-              className="w-full pl-10 pr-4 py-2 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-brand-500 outline-none"
+              className="w-full pl-10 pr-4 py-2 text-xs text-slate-900 placeholder:text-slate-500 bg-slate-100 border border-slate-300 rounded-xl dark:bg-slate-800 dark:text-slate-100 dark:placeholder:text-slate-300 dark:border-slate-600 dark:focus:bg-slate-800 focus:bg-white focus:border-brand-500 outline-none"
             />
           </div>
         </div>

@@ -224,6 +224,14 @@ The following demonstration accounts are intended for local evaluation when the 
 | `harleen` | Student | Spring Data JPA, PostgreSQL, SQL |
 | `sarah_ai` | Developer | Python, PyTorch, LangChain, AI |
 | `alex_dev` | Developer | TypeScript, Next.js, Kubernetes |
+| `maya_java` | Student | Java, Spring Boot, Python, FastAPI |
+| `ethan_py` | Student | Python, Django, Java, Spring Security |
+| `priya_data` | Student | Python, Machine Learning, Java, Microservices |
+| `noah_backend` | Student | Java, Spring Boot, Python, Flask |
+| `lucia_dev` | Student | Java, Quarkus, Python, Pytest |
+| `arjun_ai` | Student | Python, PyTorch, Java, Data Science |
+
+Each new account starts with one unread university collaboration invitation. All demo accounts use the shared password above.
 
 > **Security note:** These credentials are for local demonstrations only. Never use sample passwords in production or expose real credentials in a public repository.
 
